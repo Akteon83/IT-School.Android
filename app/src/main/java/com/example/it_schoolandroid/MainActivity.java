@@ -2,49 +2,100 @@ package com.example.it_schoolandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.it_schoolandroid.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editTextA;
-    EditText editTextB;
-    EditText editTextC;
-    TextView answer;
+    private ActivityMainBinding binding;
+    private final TaskCreator taskCreator = new TaskCreator();
+    int correctOption = R.id.button_1;
+    int count;
+    int difficulty = MenuActivity.getDifficulty();
+    MyTimer timer = new MyTimer(30000, 1000);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        editTextA = findViewById(R.id.edit_text_a);
-        editTextB = findViewById(R.id.edit_text_b);
-        editTextC = findViewById(R.id.edit_text_c);
-        answer = findViewById(R.id.answer);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        generateTask();
+        MyClickListener listener = new MyClickListener();
+        timer.start();
+        binding.button1.setOnClickListener(listener);
+        binding.button2.setOnClickListener(listener);
+        binding.button3.setOnClickListener(listener);
     }
 
-    public void get_ans(View view) {
-        boolean aExists = !(editTextA.getText().toString().isEmpty());
-        boolean bExists = !(editTextB.getText().toString().isEmpty());
-        boolean cExists = !(editTextC.getText().toString().isEmpty());
-        if (aExists && bExists && cExists) {
-            double a = Double.parseDouble(editTextA.getText().toString());
-            double b = Double.parseDouble(editTextB.getText().toString());
-            double c = Double.parseDouble(editTextC.getText().toString());
-            double d = b * b - 4 * a * c;
-            if (d > 0) {
-                //double x1 = (-b - Math.sqrt(d)) / (2 * a);
-                String x1 = String.format("%.4f", (-b - Math.sqrt(d)) / (2 * a));
-                //double x2 = (-b + Math.sqrt(d)) / (2 * a);
-                String x2 = String.format("%.4f", (-b + Math.sqrt(d)) / (2 * a));
-                answer.setText("x₁ = " + x1 +"  x₂ = " + x2);
-            } else if (d == 0) {
-                double x1 = (-b / (2 * a));
-                answer.setText("x = " + x1);
+    private void generateTask() {
+        taskCreator.createNewTask(difficulty);
+        binding.task.setText(taskCreator.getTask());
+        switch (taskCreator.random.nextInt(3)) {
+            case 0:
+                binding.option1.setText(String.valueOf(taskCreator.getAnswer()));
+                binding.option2.setText(String.valueOf(taskCreator.getFakeAnswer()));
+                binding.option3.setText(String.valueOf(taskCreator.getFakeAnswer()));
+                correctOption = R.id.button_1;
+                break;
+            case 1:
+                binding.option1.setText(String.valueOf(taskCreator.getFakeAnswer()));
+                binding.option2.setText(String.valueOf(taskCreator.getAnswer()));
+                binding.option3.setText(String.valueOf(taskCreator.getFakeAnswer()));
+                correctOption = R.id.button_2;
+                break;
+            case 2:
+                binding.option1.setText(String.valueOf(taskCreator.getFakeAnswer()));
+                binding.option2.setText(String.valueOf(taskCreator.getFakeAnswer()));
+                binding.option3.setText(String.valueOf(taskCreator.getAnswer()));
+                correctOption = R.id.button_3;
+                break;
+        }
+    }
+
+    class MyClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            if (view.getId() == correctOption) {
+                ++count;
+                binding.count.setText("Счёт: " + count);
+                generateTask();
             } else {
-                answer.setText("Решений нет");
+                Toast.makeText(MainActivity.this, "Неверный ответ!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(intent);
+                closeActivity();
             }
         }
+    }
+
+    class MyTimer extends CountDownTimer {
+
+        public MyTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            binding.timer.setText(l >= 10000 ? "00:" + l / 1000 : "00:0" + l / 1000);
+        }
+
+        @Override
+        public void onFinish() {
+            Toast.makeText(MainActivity.this, "Время вышло!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+            startActivity(intent);
+            closeActivity();
+        }
+    }
+
+    private void closeActivity() {
+        this.finish();
+        timer.cancel();
     }
 }
