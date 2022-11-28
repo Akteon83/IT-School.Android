@@ -1,119 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80C0C0"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Math Trainer"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/task"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal|top"
-        android:text="12 + 7 ="
-        android:textSize="35sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:id="@+id/button_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/frame_style"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:id="@+id/option_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="19"
-                android:textSize="35sp"
-                android:textStyle="bold" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/button_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/frame_style"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:id="@+id/option_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="19"
-                android:textSize="35sp"
-                android:textStyle="bold" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/button_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/frame_style"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="10dp">
-
-            <TextView
-                android:id="@+id/option_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="19"
-                android:textSize="35sp"
-                android:textStyle="bold" />
-        </FrameLayout>
-    </LinearLayout>
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#80C0C0"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:gravity="center_horizontal|bottom" >
+        android:padding="10dp"
+        tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/count"
+            android:id="@+id/hello"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Счёт: 0"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/timer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="00:30"
-            android:textSize="30sp"
+            android:text="Привет, Уолтер!"
+            android:textSize="40sp"
             android:textStyle="bold" />
+
+        <FrameLayout
+            android:id="@+id/make_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/frame_style"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Выбрать фото"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/beautiful_picture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
